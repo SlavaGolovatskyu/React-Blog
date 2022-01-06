@@ -1,0 +1,60 @@
+.search__article {
+  width: 57vh;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  .blog__search_and_login {
+    display: inline-block;
+    position: relative;
+
+    svg {
+      margin-right: 27px;
+    }
+
+    .blog__icon {
+      position: relative;
+      opacity: 0.4;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+
+      &:hover {
+        border-radius: 50%;
+        background: rgb(184, 183, 183);
+      }
+    }
+  }
+
+  .position__relative {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+
+    .search__input {
+      width: 40vh;
+      border: none;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 24px;
+      color: #798fa8;
+      margin-right: 5vh;
+      text-align: center;
+    }
+
+    .search__close {
+      width: 30px;
+      height: 30px;
+      position: relative;
+      margin-right: 22px;
+
+      &:hover {
+        cursor: pointer;
+        border-radius: 50%;
+        background: rgb(184, 183, 183);
+      }
+    }
+  }
+}
