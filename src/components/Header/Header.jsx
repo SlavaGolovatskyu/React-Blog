@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,8 +7,9 @@ import CreateIcon from "@mui/icons-material/Create";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Tooltip from "@mui/material/Tooltip";
 import styles from "./index.module.scss";
+import { Logout } from "../../redux/actions/user";
 
-const Header = () => {
+const Header = ({ handleOpenForm, handleLogOut }) => {
   const isOpen = "isOpen";
   const [state, setState] = React.useState({
     isOpen: false,
@@ -73,14 +74,20 @@ const Header = () => {
                   <CreateIcon className={styles.blog__icon} />
                 </Tooltip>
                 <Tooltip title="Выход" arrow>
-                  <LogoutIcon className={styles.blog__icon} />
+                  <LogoutIcon
+                    onClick={handleLogOut}
+                    className={styles.blog__icon}
+                  />
                 </Tooltip>
               </>
             )}
 
             {!isAuth && (
               <Tooltip title="Войти" arrow>
-                <PersonIcon className={styles.blog__icon} />
+                <PersonIcon
+                  onClick={handleOpenForm}
+                  className={styles.blog__icon}
+                />
               </Tooltip>
             )}
           </div>

@@ -1,17 +1,22 @@
 const initialState = {
-  fullName: "",
-  createdAt: "",
-  token: "",
-  userId: "",
-  isAuth: false,
+  fullName: window.localStorage.getItem("fullName") || "",
+  createdAt: window.localStorage.getItem("createdAt") || "",
+  userId: window.localStorage.getItem("_id") || "",
+  isAuth: window.localStorage.getItem("isAuth") || false,
 };
 
 export function userReducer(state = initialState, action) {
   switch (action.type) {
     case "LOGIN":
-      return;
+    case "REGISTRATION":
+      return {
+        fullName: window.localStorage.getItem("fullName"),
+        createdAt: window.localStorage.getItem("createdAt"),
+        userId: window.localStorage.getItem("_id"),
+        isAuth: window.localStorage.getItem("isAuth"),
+      };
 
-    case "LOGOUT":
+    case "LOG_OUT":
       return initialState;
 
     default:

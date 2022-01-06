@@ -6,6 +6,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { formContextProvider } from "../../context/formContext";
+import dateToLocaleString from "../../utils/dateToLocaleString";
 import styles from "./index.module.scss";
 
 function ButtonMenu() {
@@ -29,9 +31,24 @@ function ListGenerate({ name, href = false, ...props }) {
   );
 }
 
-export default function Menu() {
+export default function Menu({ handleLogOut }) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { fullName, createdAt, isAuth } = useSelector((state) => state.user);
+  const {
+    fullName,
+    createdAt: created,
+    isAuth,
+  } = useSelector((state) => state.user);
+
+  const accountCreated = dateToLocaleString(created);
+
+  // this function call popmenu for log in or registration
+  // handleClick('login') for example
+  const { handleClick } = React.useContext(formContextProvider);
+
+  const openModalWindow = (name) => {
+    handleClick(name);
+    setIsOpen(false);
+  };
 
   return (
     <div className={styles.menu}>
@@ -43,43 +60,49 @@ export default function Menu() {
         {isOpen && (
           <div className={styles.menu__container}>
             <div className={styles.menu__profile}>
-              <Switch>
-                {isAuth && (
-                  <>
-                    <h3 className={styles.user__name}>{fullName}</h3>
-                    <h5 className={styles.user__createdAt}>{createdAt}</h5>
+              {isAuth && (
+                <>
+                  <h3 className={styles.user__name}>{fullName}</h3>
+                  <h5 className={styles.user__createdAt}>
+                    Дата регистрации: {accountCreated}
+                  </h5>
 
-                    <ul className={styles.link__items}>
-                      <ListGenerate
-                        name="Главная"
-                        className={styles.link__item}
-                      />
-                      <ListGenerate
-                        name="Мой профиль"
-                        className={styles.link__item}
-                      />
-                      <ListGenerate
-                        name="Создать запись"
-                        className={styles.link__item}
-                      />
-                      <ListGenerate
-                        name="Выйти"
-                        className={styles.link__item}
-                      />
-                    </ul>
-                  </>
-                )}
-
-                {!isAuth && (
                   <ul className={styles.link__items}>
-                    <ListGenerate name="Войти" className={styles.link__item} />
                     <ListGenerate
-                      name="Зарегистрироваться"
+                      name="Главная"
+                      className={styles.link__item}
+                    />
+                    <ListGenerate
+                      name="Мой профиль"
+                      className={styles.link__item}
+                    />
+                    <ListGenerate
+                      name="Создать запись"
+                      className={styles.link__item}
+                    />
+                    <ListGenerate
+                      onClick={handleLogOut}
+                      name="Выйти"
                       className={styles.link__item}
                     />
                   </ul>
-                )}
-              </Switch>
+                </>
+              )}
+
+              {!isAuth && (
+                <ul className={styles.link__items}>
+                  <ListGenerate
+                    name="Войти"
+                    className={styles.link__item}
+                    onClick={() => openModalWindow("login")}
+                  />
+                  <ListGenerate
+                    name="Зарегистрироваться"
+                    className={styles.link__item}
+                    onClick={() => openModalWindow("registration")}
+                  />
+                </ul>
+              )}
             </div>
 
             <div className={styles.menu__close}>
