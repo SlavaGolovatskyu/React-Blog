@@ -1,55 +1,61 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useForm, FormProvider } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { registrationSchema } from "./Schemes";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { registrationSchema } from './Schemes';
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import Box from "@mui/material/Box";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Box from '@mui/material/Box';
 
-import { FormField } from "./FormField";
+import { FormField } from './FormField';
 
-import { formContextProvider } from "../../context/formContext";
-import { Registration } from "../../redux/actions/user";
+import { formContextProvider } from '../../context/formContext';
+import { Registration } from '../../redux/actions/user';
+import styles from './index.module.scss';
 
 export const RegistrationForm = () => {
   const methods = useForm({
     defaultValues: {
-      fullName: "",
-      email: "",
-      password: "",
+      fullName: '',
+      email: '',
+      password: '',
     },
     resolver: yupResolver(registrationSchema),
   });
 
+  const [loading, setLoading] = React.useState(false);
+
   const dispatch = useDispatch();
-  const { formOpen, handleClick } = React.useContext(formContextProvider);
+  const { formOpen, handleClickOpenForm } = React.useContext(formContextProvider);
 
   const onSubmit = (data) => {
-    dispatch(Registration(data.fullName, data.email, data.password));
-    handleClick();
-    methods.reset();
+    setLoading(true);
+    dispatch(Registration(data.fullName, data.email, data.password, methods.setError));
+    setLoading(false);
   };
 
   return (
     <FormProvider {...methods}>
       <Dialog
         open={formOpen.registration}
-        onClose={() => handleClick("registration")}
+        onClose={() => handleClickOpenForm('registration')}
         aria-describedby="alert-dialog-slide-description"
       >
         <Box
           component="form"
           sx={{
-            "& > :not(style)": { m: 4, width: "45ch" },
-            display: "flex",
-            flexDirection: "column",
+            width: 300,
+            height: 320,
+            display: 'flex',
+            flexDirection: 'column',
+            margin: '35px',
           }}
           noValidate
           autoComplete="off"
         >
+          <h2>Зарегистрировать аккаунт</h2>
           <FormField label="Полное имя" name="fullName" />
           <FormField label="Почта" name="email" />
           <FormField label="Пароль" name="password" />
@@ -57,29 +63,26 @@ export const RegistrationForm = () => {
         <DialogActions>
           <Box
             sx={{
-              "& > :not(style)": { m: 2, width: "45ch" },
-              margin: "0 auto",
+              margin: '0 auto',
+              marginTop: '20px',
             }}
             noValidate
             autoComplete="off"
           >
-            <Button
-              variant="contained"
-              onClick={methods.handleSubmit(onSubmit)}
-            >
-              Зарегистрироваться
-            </Button>
+            <button disabled={loading} onClick={methods.handleSubmit(onSubmit)} className={styles.btn}>
+              Зарегистрировать аккаунт
+            </button>
           </Box>
         </DialogActions>
         <Box
           sx={{
-            "& > :not(style)": { m: 2, width: "25ch" },
-            margin: "0 auto",
+            margin: '0 auto',
+            marginBottom: '20px',
           }}
           noValidate
           autoComplete="off"
         >
-          <Button variant="contained" onClick={() => handleClick("login")}>
+          <Button variant="contained" onClick={() => handleClickOpenForm('login')}>
             Войти
           </Button>
         </Box>

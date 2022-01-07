@@ -1,5 +1,5 @@
 .search__article {
-  width: 57vh;
+  width: 90%;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -32,7 +32,7 @@
     justify-content: space-between;
 
     .search__input {
-      width: 40vh;
+      width: 36vh;
       border: none;
       font-family: Inter;
       font-style: normal;
@@ -40,7 +40,8 @@
       font-size: 16px;
       line-height: 24px;
       color: #798fa8;
-      margin-right: 5vh;
+      margin: 0 auto;
+      margin-right: 20px;
       text-align: center;
     }
 
@@ -48,12 +49,23 @@
       width: 30px;
       height: 30px;
       position: relative;
-      margin-right: 22px;
 
       &:hover {
         cursor: pointer;
         border-radius: 50%;
         background: rgb(184, 183, 183);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .search__article {
+    .position__relative {
+      margin: 0 auto;
+      margin-left: 0;
+      .search__input {
+        width: 25vh;
       }
     }
   }

@@ -43,8 +43,32 @@
 
   img {
     width: 100%;
-    max-width: 600px;
+    max-width: 400px;
     height: auto;
     border-radius: 10px;
+  }
+}
+
+@media screen and (min-width: 1487px) {
+  .about {
+    width: 800px;
+
+    .about__me {
+      font-size: 22px;
+    }
+
+    h5 {
+      font-size: 30px;
+    }
+
+    img {
+      max-width: 800px;
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about {
+    border-right: 0;
   }
 }

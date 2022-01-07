@@ -1,6 +1,7 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
-import TextField from "@mui/material/TextField";
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import TextField from '@mui/material/TextField';
 
 // stateless component
 export const FormField = ({ label, name }) => {
@@ -9,10 +10,11 @@ export const FormField = ({ label, name }) => {
 
   return (
     <TextField
+      sx={{ margin: '20px 0', borderRadius: '20px' }}
       label={label}
       name={name}
-      id="standard-basic"
-      variant="standard"
+      id="outlined-basic"
+      variant="outlined"
       {...register(name)}
       helperText={errors[name] && errors[name].message}
       error={!!errors[name]}

@@ -1,36 +1,39 @@
-import { instance } from "../../config/axios";
-import setLocalStorageItems from "../../utils/setLocalStorageItems";
+import { instance } from '../../config/axios';
+import getUserById from '../../services/userAPI';
+import setLocalStorageItems from '../../utils/setLocalStorageItems';
 
-async function getUserById(id) {
-  const getUserURL = `users/${id}`;
-  try {
-    const { data } = await instance.get(getUserURL);
-    window.localStorage.setItem("createdAt", data.createdAt);
-  } catch (e) {
-    console.log(e);
-  }
+function setLocalStorageUserData(data) {
+  window.localStorage.setItem('createdAt', data.createdAt);
 }
 
-export const Login = (email, password) => async (dispatch) => {
-  const loginURL = "auth/login";
+export const Login = (email, password, setError) => async (dispatch) => {
+  const loginURL = 'auth/login';
   try {
     const { data } = await instance.post(loginURL, { email, password });
 
     if (data.token) {
-      setLocalStorageItems(data);
-      await getUserById(data._id);
+      setLocalStorageItems(data, true);
+      setLocalStorageUserData(await getUserById(data._id));
 
       dispatch({
-        type: "LOGIN",
+        type: 'LOGIN',
       });
     }
   } catch (e) {
-    console.log(e.data);
+    if (e.response) {
+      const { status, data } = e.response;
+      if (status === 404) {
+        setError('email', { message: data.error });
+      }
+      if (status === 400) {
+        setError('password', { message: data.error });
+      }
+    }
   }
 };
 
-export const Registration = (fullName, email, password) => async (dispatch) => {
-  const registrationURL = "auth/register";
+export const Registration = (fullName, email, password, setError) => async (dispatch) => {
+  const registrationURL = 'auth/register';
   try {
     const { data } = await instance.post(registrationURL, {
       fullName,
@@ -39,19 +42,26 @@ export const Registration = (fullName, email, password) => async (dispatch) => {
     });
 
     if (data.token) {
-      setLocalStorageItems(data);
+      setLocalStorageItems(data, true);
 
       dispatch({
-        type: "REGISTRATION",
+        type: 'REGISTRATION',
       });
     }
   } catch (e) {
-    console.log(e.data);
+    if (e.response) {
+      const { status, data } = e.response;
+      if (status === 500 || status === 400) {
+        setError('email', { message: data.error });
+      }
+    }
   }
 };
 
 export const Logout = () => {
   return {
-    type: "LOG_OUT",
+    type: 'LOG_OUT',
   };
 };
+
+export const getUserByIdAction = (id) => async (dispatch) => {};

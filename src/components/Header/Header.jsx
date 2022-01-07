@@ -1,19 +1,18 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import SearchIcon from "@mui/icons-material/Search";
-import PersonIcon from "@mui/icons-material/Person";
-import CloseIcon from "@mui/icons-material/Close";
-import CreateIcon from "@mui/icons-material/Create";
-import LogoutIcon from "@mui/icons-material/Logout";
-import Tooltip from "@mui/material/Tooltip";
-import styles from "./index.module.scss";
-import { Logout } from "../../redux/actions/user";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import SearchIcon from '@mui/icons-material/Search';
+import PersonIcon from '@mui/icons-material/Person';
+import CloseIcon from '@mui/icons-material/Close';
+import CreateIcon from '@mui/icons-material/Create';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Tooltip from '@mui/material/Tooltip';
+import styles from './index.module.scss';
 
 const Header = ({ handleOpenForm, handleLogOut }) => {
-  const isOpen = "isOpen";
+  const isOpen = 'isOpen';
   const [state, setState] = React.useState({
     isOpen: false,
-    inputValue: "",
+    inputValue: '',
   });
 
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -24,7 +23,7 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
       if (name === isOpen && !prev.isOpen) {
         return {
           ...prev,
-          inputValue: "",
+          inputValue: '',
           [name]: value,
         };
       }
@@ -44,14 +43,11 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
             className={styles.search__input}
             placeholder="Поиск статьи по заголовку или тексту..."
             value={state.inputValue}
-            onChange={(e) => handleChangeState(e, "inputValue")}
+            onChange={(e) => handleChangeState(e, 'inputValue')}
             autoFocus
           />
           <Tooltip title="Закрыть" arrow>
-            <CloseIcon
-              onClick={() => handleChangeState(false, isOpen, false)}
-              className={styles.search__close}
-            />
+            <CloseIcon onClick={() => handleChangeState(false, isOpen, false)} className={styles.search__close} />
           </Tooltip>
         </div>
       )}
@@ -62,10 +58,7 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
           <div className={styles.blog__name}>Slavik Blog</div>
           <div className={styles.blog__search_and_login}>
             <Tooltip title="Найти" arrow>
-              <SearchIcon
-                onClick={() => handleChangeState(false, isOpen, true)}
-                className={styles.blog__icon}
-              />
+              <SearchIcon onClick={() => handleChangeState(false, isOpen, true)} className={styles.blog__icon} />
             </Tooltip>
 
             {isAuth && (
@@ -74,20 +67,14 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
                   <CreateIcon className={styles.blog__icon} />
                 </Tooltip>
                 <Tooltip title="Выход" arrow>
-                  <LogoutIcon
-                    onClick={handleLogOut}
-                    className={styles.blog__icon}
-                  />
+                  <LogoutIcon onClick={handleLogOut} className={styles.blog__icon} />
                 </Tooltip>
               </>
             )}
 
             {!isAuth && (
               <Tooltip title="Войти" arrow>
-                <PersonIcon
-                  onClick={handleOpenForm}
-                  className={styles.blog__icon}
-                />
+                <PersonIcon onClick={handleOpenForm} className={styles.blog__icon} />
               </Tooltip>
             )}
           </div>

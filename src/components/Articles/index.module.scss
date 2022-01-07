@@ -40,7 +40,7 @@
       line-height: 18px;
       letter-spacing: 0.01em;
       text-transform: uppercase;
-      font-feature-settings: "tnum" on, "lnum" on;
+      font-feature-settings: 'tnum' on, 'lnum' on;
       color: #c1c1c1;
     }
   }
@@ -50,5 +50,11 @@
     height: auto;
     border-radius: 15px;
     margin: 10px 25px 0 25px;
+  }
+}
+
+@media screen and (max-width: 1020px) {
+  .article__flex_direction {
+    flex-wrap: wrap;
   }
 }

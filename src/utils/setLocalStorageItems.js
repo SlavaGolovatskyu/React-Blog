@@ -1,7 +1,7 @@
-export default function setLocalStorageItems(data) {
+export default function setLocalStorageItems(data, isAuth = false) {
   const keys = Object.keys(data);
   keys.forEach((key) => {
-    if (key !== "password") window.localStorage.setItem(key, data[key]);
+    if (key !== 'password') window.localStorage.setItem(key, data[key]);
   });
-  window.localStorage.setItem("isAuth", true);
+  if (isAuth) window.localStorage.setItem('isAuth', true);
 }

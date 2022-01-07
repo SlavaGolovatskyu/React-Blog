@@ -1,86 +1,87 @@
-import React from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "./Schemes";
+import React from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { loginSchema } from './Schemes';
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import Box from "@mui/material/Box";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Box from '@mui/material/Box';
 
-import { FormField } from "./FormField";
+import { FormField } from './FormField';
 
-import { Login } from "../../redux/actions/user";
-import { formContextProvider } from "../../context/formContext";
-import { useDispatch } from "react-redux";
+import { Login } from '../../redux/actions/user';
+import { formContextProvider } from '../../context/formContext';
+import { useDispatch } from 'react-redux';
+
+import styles from './index.module.scss';
 
 export default function LoginForm() {
   const methods = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     resolver: yupResolver(loginSchema),
   });
 
+  const [loading, setLoading] = React.useState(false);
+
   const dispatch = useDispatch();
-  const { formOpen, handleClick } = React.useContext(formContextProvider);
+
+  const { formOpen, handleClickOpenForm } = React.useContext(formContextProvider);
 
   const onSubmit = (data) => {
-    dispatch(Login(data.email, data.password));
-    handleClick();
-    methods.reset();
+    setLoading(true);
+    dispatch(Login(data.email, data.password, methods.setError));
+    setLoading(false);
   };
 
   return (
     <FormProvider {...methods}>
       <Dialog
         open={formOpen.login}
-        onClose={() => handleClick("login")}
+        onClose={() => handleClickOpenForm('login')}
         aria-describedby="alert-dialog-slide-description"
       >
         <Box
           component="form"
           sx={{
-            "& > :not(style)": { m: 4, width: "45ch" },
-            display: "flex",
-            flexDirection: "column",
+            width: 300,
+            height: 200,
+            display: 'flex',
+            flexDirection: 'column',
+            margin: '35px',
           }}
           noValidate
           autoComplete="off"
         >
-          <FormField label="почта" name="email" />
-          <FormField label="пароль" name="password" />
+          <h2>Вход в аккаунт</h2>
+          <FormField label="Email" name="email" />
+          <FormField label="Password" name="password" />
         </Box>
         <DialogActions>
           <Box
             sx={{
-              "& > :not(style)": { m: 2, width: "45ch" },
-              margin: "0 auto",
+              margin: '0 auto',
             }}
             noValidate
             autoComplete="off"
           >
-            <Button
-              variant="contained"
-              onClick={methods.handleSubmit(onSubmit)}
-            >
+            <button onClick={methods.handleSubmit(onSubmit)} disabled={loading} className={styles.btn}>
               Войти
-            </Button>
+            </button>
           </Box>
         </DialogActions>
         <Box
           sx={{
-            "& > :not(style)": { m: 2, width: "25ch" },
-            margin: "0 auto",
+            margin: '0 auto',
+            marginBottom: '20px',
           }}
           noValidate
           autoComplete="off"
         >
-          <Button
-            variant="contained"
-            onClick={() => handleClick("registration")}
-          >
+          <Button variant="contained" onClick={() => handleClickOpenForm('registration')}>
             Зарегистрироваться
           </Button>
         </Box>
