@@ -20,13 +20,6 @@ export function userReducer(state = initialState, action) {
         isAuth: convertStringToBool('isAuth'),
       };
 
-    case 'SET_USER_DATA':
-      return {
-        ...state,
-        posts: action.payload.posts,
-        comments: action.payload.comments,
-      };
-
     case 'LOG_OUT':
       return { ...state, isAuth: false };
 
