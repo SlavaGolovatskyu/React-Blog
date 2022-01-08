@@ -9,12 +9,13 @@ import Profile from '../components/Profile/Profile';
 
 import { Logout } from '../redux/actions/user';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import styles from './pages.module.scss';
 import arthur from '../assets/myphoto.jpg';
 import myPhoto from '../assets/IMG_0508.jpg';
 
 import { formContextProvider } from '../context/formContext';
+import { LoginRoute } from '../utils/ProtectedRoute';
 
 export default function MainPage() {
   const [formOpen, setFormOpen] = React.useState({
@@ -22,25 +23,22 @@ export default function MainPage() {
     registration: false,
   });
 
+  const history = useHistory();
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth);
 
   const onClickLogOut = () => {
     localStorage.clear();
     dispatch(Logout());
+    history.push('/');
   };
 
   const handleClickOpenForm = (name = false) => {
     setFormOpen((prev) => {
-      let newObj = {
-        login: false,
-        registration: false,
-      };
       if (!name) {
-        return newObj;
+        return { login: false, registration: false };
       }
-      newObj[name] = !prev[name];
-      return newObj;
+      return { login: false, registration: false, [name]: !prev[name] };
     });
   };
 
@@ -67,17 +65,21 @@ export default function MainPage() {
             <Route path="/" exact>
               <About />
               <div className={styles.articles}>
-                <Articles articles={[1, 2, 3, 4, 5]} />
+                <Articles />
               </div>
             </Route>
-            <Route path="/profile" exact>
-              {isAuth ? <Profile /> : <Redirect to="/" />}
+            <LoginRoute path="/profile" exact={true}>
+              <Profile />
+            </LoginRoute>
+            <Route>
+              <h1>Страница не найдена.</h1>
             </Route>
           </Switch>
-          <Menu handleClickLogout={onClickLogOut} />
+
           <LoginForm />
-          <RegistrationForm />;
+          <RegistrationForm />
         </div>
+        <Menu handleClickLogout={onClickLogOut} />
       </div>
     </formContextProvider.Provider>
   );

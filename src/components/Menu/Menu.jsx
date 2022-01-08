@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Switch, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -18,10 +18,12 @@ function ButtonMenu() {
   );
 }
 
-function ListGenerate({ name, href = false, ...props }) {
+function ListGenerate({ onClick, name, href = false, ...props }) {
   return (
     <li {...props}>
-      <Link to={href ? href : '/'}>{name}</Link>
+      <Link to={href ? href : '/'} onClick={onClick}>
+        {name}
+      </Link>
     </li>
   );
 }

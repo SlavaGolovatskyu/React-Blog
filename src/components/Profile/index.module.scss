@@ -1,0 +1,54 @@
+.margin {
+  margin: 15px 0 0 0;
+}
+
+.maxHeight {
+  max-height: 800px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.btn__green {
+  color: #36b55a;
+}
+
+.user__info {
+  margin-left: 15px;
+
+  .user__name {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 58px;
+    line-height: 52px;
+    color: #0058d9;
+  }
+
+  .user__created_at {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 52px;
+  }
+
+  .btn__change_menu {
+    width: 100px;
+    height: 30px;
+    background: rgba(64, 210, 105, 0.08);
+    border: 0;
+    border-radius: 4px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    margin-right: 15px;
+
+    &:hover {
+      background: rgba(19, 59, 31, 0.08);
+      cursor: pointer;
+    }
+  }
+}

@@ -2,6 +2,7 @@
   display: flex;
 
   .article {
+    min-width: 65%;
     word-wrap: break-word;
     display: flex;
     flex-direction: column;
@@ -13,6 +14,7 @@
     padding: 0 0 10px 15px;
 
     .article__title {
+      max-width: 100%;
       font-family: Nunito;
       font-style: normal;
       font-weight: 800;
@@ -23,6 +25,7 @@
     }
 
     .article__text {
+      max-width: 100%;
       font-family: Inter;
       font-style: normal;
       font-weight: normal;
@@ -33,6 +36,7 @@
     }
 
     .article__createdAt {
+      max-width: 100%;
       font-family: IBM Plex Sans;
       font-style: normal;
       font-weight: normal;
@@ -42,6 +46,10 @@
       text-transform: uppercase;
       font-feature-settings: 'tnum' on, 'lnum' on;
       color: #c1c1c1;
+    }
+
+    .article__views {
+      margin: 0 0 0 5px;
     }
   }
 
@@ -53,7 +61,7 @@
   }
 }
 
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 1090px) {
   .article__flex_direction {
     flex-wrap: wrap;
   }

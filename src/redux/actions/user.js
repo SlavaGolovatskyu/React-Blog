@@ -1,10 +1,6 @@
 import { instance } from '../../config/axios';
-import getUserById from '../../services/userAPI';
+import getUserById from '../../services/user';
 import setLocalStorageItems from '../../utils/setLocalStorageItems';
-
-function setLocalStorageUserData(data) {
-  window.localStorage.setItem('createdAt', data.createdAt);
-}
 
 export const Login = (email, password, setError) => async (dispatch) => {
   const loginURL = 'auth/login';
@@ -13,7 +9,8 @@ export const Login = (email, password, setError) => async (dispatch) => {
 
     if (data.token) {
       setLocalStorageItems(data, true);
-      setLocalStorageUserData(await getUserById(data._id));
+      const { createdAt } = await getUserById(data._id);
+      window.localStorage.setItem('createdAt', createdAt);
 
       dispatch({
         type: 'LOGIN',
@@ -63,5 +60,3 @@ export const Logout = () => {
     type: 'LOG_OUT',
   };
 };
-
-export const getUserByIdAction = (id) => async (dispatch) => {};

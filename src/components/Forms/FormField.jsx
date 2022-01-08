@@ -1,6 +1,5 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
 
 // stateless component

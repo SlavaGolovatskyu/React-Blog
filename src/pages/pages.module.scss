@@ -20,6 +20,8 @@ body {
   width: 95%;
 
   .wrapper {
+    text-decoration: none;
+    list-style: none;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,7 +30,7 @@ body {
 }
 
 .articles {
-  width: 500px;
+  max-width: 70vh;
   margin-top: -50px;
   max-height: 1000px;
   overflow: scroll;

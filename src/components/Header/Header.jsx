@@ -22,7 +22,6 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
       const value = e ? e.target.value : values;
       if (name === isOpen && !prev.isOpen) {
         return {
-          ...prev,
           inputValue: '',
           [name]: value,
         };
