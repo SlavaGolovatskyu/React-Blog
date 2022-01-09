@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import { FormField } from './FormField';
 
 import { formContextProvider } from '../../context/formContext';
-import { Registration } from '../../redux/actions/user';
+import { registration } from '../../redux/actions/user';
 import styles from './index.module.scss';
 
 export const RegistrationForm = () => {
@@ -32,7 +32,7 @@ export const RegistrationForm = () => {
 
   const onSubmit = (data) => {
     setLoading(true);
-    dispatch(Registration(data.fullName, data.email, data.password, methods.setError));
+    dispatch(registration(data.fullName, data.email, data.password, methods.setError));
     setLoading(false);
   };
 
@@ -69,7 +69,11 @@ export const RegistrationForm = () => {
             noValidate
             autoComplete="off"
           >
-            <button disabled={loading} onClick={methods.handleSubmit(onSubmit)} className={styles.btn}>
+            <button
+              disabled={loading}
+              onClick={methods.handleSubmit(onSubmit)}
+              className={styles.btn}
+            >
               Зарегистрировать аккаунт
             </button>
           </Box>

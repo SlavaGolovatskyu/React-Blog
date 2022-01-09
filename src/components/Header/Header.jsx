@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
 import CloseIcon from '@mui/icons-material/Close';
@@ -46,7 +46,10 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
             autoFocus
           />
           <Tooltip title="Закрыть" arrow>
-            <CloseIcon onClick={() => handleChangeState(false, isOpen, false)} className={styles.search__close} />
+            <CloseIcon
+              onClick={() => handleChangeState(false, isOpen, false)}
+              className={styles.search__close}
+            />
           </Tooltip>
         </div>
       )}
@@ -57,7 +60,10 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
           <div className={styles.blog__name}>Slavik Blog</div>
           <div className={styles.blog__search_and_login}>
             <Tooltip title="Найти" arrow>
-              <SearchIcon onClick={() => handleChangeState(false, isOpen, true)} className={styles.blog__icon} />
+              <SearchIcon
+                onClick={() => handleChangeState(false, isOpen, true)}
+                className={styles.blog__icon}
+              />
             </Tooltip>
 
             {isAuth && (

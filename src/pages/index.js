@@ -7,12 +7,11 @@ import LoginForm from '../components/Forms/Login';
 import RegistrationForm from '../components/Forms/Registration';
 import Profile from '../components/Profile/Profile';
 
-import { Logout } from '../redux/actions/user';
+import { logout } from '../redux/actions/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
+
 import styles from './pages.module.scss';
-import arthur from '../assets/myphoto.jpg';
-import myPhoto from '../assets/IMG_0508.jpg';
 
 import { formContextProvider } from '../context/formContext';
 import { LoginRoute } from '../utils/ProtectedRoute';
@@ -29,7 +28,7 @@ export default function MainPage() {
 
   const onClickLogOut = () => {
     localStorage.clear();
-    dispatch(Logout());
+    dispatch(logout());
     history.push('/');
   };
 
@@ -57,7 +56,10 @@ export default function MainPage() {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.head}>
-            <Header handleOpenForm={() => handleClickOpenForm('login')} handleLogOut={onClickLogOut} />
+            <Header
+              handleOpenForm={() => handleClickOpenForm('login')}
+              handleLogOut={onClickLogOut}
+            />
           </div>
         </div>
         <div className={styles.wrapper}>

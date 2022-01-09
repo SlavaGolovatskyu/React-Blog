@@ -12,7 +12,12 @@ import styles from './index.module.scss';
 
 function ButtonMenu() {
   return (
-    <Typography sx={{ letterSpacing: '5px' }} variant="h6" color="inherit" component="div">
+    <Typography
+      sx={{ letterSpacing: '5px' }}
+      variant="h6"
+      color="inherit"
+      component="div"
+    >
       меню
     </Typography>
   );
@@ -52,10 +57,16 @@ export default function Menu({ handleClickLogout }) {
               {isAuth && (
                 <>
                   <h3 className={styles.user__name}>{fullName}</h3>
-                  <h5 className={styles.user__createdAt}>Дата регистрации: {accountCreated}</h5>
+                  <h5 className={styles.user__createdAt}>
+                    Дата регистрации: {accountCreated}
+                  </h5>
 
                   <ul className={styles.link__items}>
-                    <ListGenerate name="Главная" onClick={() => setIsOpen(false)} className={styles.link__item} />
+                    <ListGenerate
+                      name="Главная"
+                      onClick={() => setIsOpen(false)}
+                      className={styles.link__item}
+                    />
                     <ListGenerate
                       name="Мой профиль"
                       href="/profile"
@@ -67,14 +78,22 @@ export default function Menu({ handleClickLogout }) {
                       name="Создать запись"
                       className={styles.link__item}
                     />
-                    <ListGenerate onClick={handleClickLogout} name="Выйти" className={styles.link__item} />
+                    <ListGenerate
+                      onClick={handleClickLogout}
+                      name="Выйти"
+                      className={styles.link__item}
+                    />
                   </ul>
                 </>
               )}
 
               {!isAuth && (
                 <ul className={styles.link__items}>
-                  <ListGenerate name="Войти" className={styles.link__item} onClick={() => openModalWindow('login')} />
+                  <ListGenerate
+                    name="Войти"
+                    className={styles.link__item}
+                    onClick={() => openModalWindow('login')}
+                  />
                   <ListGenerate
                     name="Зарегистрироваться"
                     className={styles.link__item}

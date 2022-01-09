@@ -1,12 +1,27 @@
-import { getArticles } from '../../services/articles';
+import { instance } from '../../config/axios';
+import { loadingAction } from './loading';
+
+export const setPosts = (total, items) => {
+  return {
+    type: 'SET_POSTS',
+    payload: { totalPosts: total, posts: items },
+  };
+};
 
 export const postsAction =
-  (userId = '') =>
+  (userId = '', query = '', page = 1, limit = 5, orderBy = 'desc') =>
   async (dispatch) => {
-    const data = await getArticles(userId);
-    if (Array.isArray(data)) {
+    const getArticlesURL = `posts?page=${page}&limit=${limit}&orderBy=${orderBy}&userId=${userId}&query=${query}`;
+
+    dispatch(loadingAction(true));
+    try {
+      // make requests for receive articles
+      const { data } = await instance.get(getArticlesURL);
+      // set data if not errors
+      dispatch(setPosts(data.total, data.items));
+    } catch (e) {
       dispatch({ type: 'CLEAR' });
-    } else {
-      dispatch({ type: 'SET_POSTS', payload: { totalPosts: data.total, posts: data.items, currentPage: data.page } });
+    } finally {
+      dispatch(loadingAction(false));
     }
   };

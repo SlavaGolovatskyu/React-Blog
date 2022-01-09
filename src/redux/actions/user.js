@@ -2,7 +2,7 @@ import { instance } from '../../config/axios';
 import getUserById from '../../services/user';
 import setLocalStorageItems from '../../utils/setLocalStorageItems';
 
-export const Login = (email, password, setError) => async (dispatch) => {
+export const login = (email, password, setError) => async (dispatch) => {
   const loginURL = 'auth/login';
   try {
     const { data } = await instance.post(loginURL, { email, password });
@@ -29,7 +29,7 @@ export const Login = (email, password, setError) => async (dispatch) => {
   }
 };
 
-export const Registration = (fullName, email, password, setError) => async (dispatch) => {
+export const registration = (fullName, email, password, setError) => async (dispatch) => {
   const registrationURL = 'auth/register';
   try {
     const { data } = await instance.post(registrationURL, {
@@ -55,7 +55,7 @@ export const Registration = (fullName, email, password, setError) => async (disp
   }
 };
 
-export const Logout = () => {
+export const logout = () => {
   return {
     type: 'LOG_OUT',
   };

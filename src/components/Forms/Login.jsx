@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 
 import { FormField } from './FormField';
 
-import { Login } from '../../redux/actions/user';
+import { login } from '../../redux/actions/user';
 import { formContextProvider } from '../../context/formContext';
 import { useDispatch } from 'react-redux';
 
@@ -33,7 +33,7 @@ export default function LoginForm() {
 
   const onSubmit = (data) => {
     setLoading(true);
-    dispatch(Login(data.email, data.password, methods.setError));
+    dispatch(login(data.email, data.password, methods.setError));
     setLoading(false);
   };
 
@@ -68,7 +68,11 @@ export default function LoginForm() {
             noValidate
             autoComplete="off"
           >
-            <button onClick={methods.handleSubmit(onSubmit)} disabled={loading} className={styles.btn}>
+            <button
+              onClick={methods.handleSubmit(onSubmit)}
+              disabled={loading}
+              className={styles.btn}
+            >
               Войти
             </button>
           </Box>
