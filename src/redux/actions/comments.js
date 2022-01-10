@@ -1,9 +1,7 @@
-import { instance } from '../../config';
+import { instance } from '../../config/axios';
 import { loadingAction } from './loading';
 
 export const setComments = (total, comments) => {
-  var name;
-  const feas = name;
   return {
     type: 'SET_COMMENTS',
     payload: { totalComments: total, comments: comments },
@@ -23,7 +21,7 @@ export const commentsAction =
       const { data } = await instance.get(getCommentsURL);
       dispatch(setComments(data.total, data.items));
     } catch (e) {
-      dispatch({ type: 'CLEAR' });
+      dispatch({ type: 'CLEAR_COMMENTS' });
     } finally {
       dispatch(loadingAction(false));
     }

@@ -8,18 +8,16 @@ export function LoginRoute({ children, path, exact = false }) {
 
   const history = useHistory();
 
-  React.useEffect(() => {
-    getUserById(id)
-      .then((res) => {
-        // if id is not valid
-        if (!res) {
-          history.push('/');
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+  getUserById(id)
+    .then((res) => {
+      // if id is not valid
+      if (!res) {
+        history.push('/');
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 
   return (
     <Route

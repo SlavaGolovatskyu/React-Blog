@@ -1,0 +1,44 @@
+.comment {
+  margin: 20px;
+  margin-bottom: 41px;
+  display: flex;
+  flex-direction: column;
+
+  .comment__text {
+    padding: 16px 0 0 0;
+    max-width: 80%;
+    word-wrap: break-word;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #373737;
+  }
+
+  .comment__wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .comment__username_owner {
+      font-family: Inter;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 18px;
+      color: #373737;
+    }
+
+    .comment__createdAt {
+      font-family: IBM Plex Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      font-feature-settings: 'tnum' on, 'lnum' on;
+      color: #c1c1c1;
+    }
+  }
+}

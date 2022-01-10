@@ -51,7 +51,7 @@ $main: #13315e;
         font-style: normal;
         line-height: 26px;
         margin: 15px;
-        padding: 15px 0;
+        padding: 15px 10px;
 
         .user__name {
           font-weight: 800;
@@ -91,7 +91,7 @@ $main: #13315e;
 
       .menu__close {
         background: #0a2246;
-        padding: 20px 0 20px 15px;
+        padding: 20px 0 20px 25px;
         display: flex;
         flex-direction: row;
         align-items: center;

@@ -11,7 +11,7 @@ export function postsReducer(state = initialState, action) {
         posts: action.payload.posts,
       };
 
-    case 'CLEAR':
+    case 'CLEAR_POSTS':
       return initialState;
 
     default:

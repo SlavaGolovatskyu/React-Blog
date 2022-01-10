@@ -6,6 +6,7 @@ import dateToLocaleString from './../../utils/dateToLocaleString';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Articles from '../Articles/Articles';
+import Comments from '../Comments/Comments';
 
 import styles from './index.module.scss';
 
@@ -48,6 +49,7 @@ const Profile = () => {
         </div>
         <div className={styles.margin + ' ' + styles.maxHeight}>
           {activeBtn === 0 && <Articles isUser={true} />}
+          {activeBtn === 1 && <Comments isUser={true} />}
         </div>
       </Box>
     </Grid>

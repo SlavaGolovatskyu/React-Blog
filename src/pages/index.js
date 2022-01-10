@@ -54,14 +54,10 @@ export default function MainPage() {
   return (
     <formContextProvider.Provider value={contextProvider}>
       <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.head}>
-            <Header
-              handleOpenForm={() => handleClickOpenForm('login')}
-              handleLogOut={onClickLogOut}
-            />
-          </div>
-        </div>
+        <Header
+          handleOpenForm={() => handleClickOpenForm('login')}
+          handleLogOut={onClickLogOut}
+        />
         <div className={styles.wrapper}>
           <Switch>
             <Route path="/" exact>
@@ -73,6 +69,12 @@ export default function MainPage() {
             <LoginRoute path="/profile" exact={true}>
               <Profile />
             </LoginRoute>
+            {/* <LoginRoute path="/create-article" exact={true}>
+              <CreateArticle />
+            </LoginRoute>
+            <LoginRoute path="/edit-article/:id" exact={true}>
+              <CreateArticle />
+            </LoginRoute> */}
             <Route>
               <h1>Страница не найдена.</h1>
             </Route>

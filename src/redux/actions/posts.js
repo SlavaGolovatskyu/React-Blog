@@ -20,7 +20,7 @@ export const postsAction =
       // set data if not errors
       dispatch(setPosts(data.total, data.items));
     } catch (e) {
-      dispatch({ type: 'CLEAR' });
+      dispatch({ type: 'CLEAR_POSTS' });
     } finally {
       dispatch(loadingAction(false));
     }
