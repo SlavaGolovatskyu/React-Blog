@@ -74,6 +74,7 @@ export default function Menu({ handleClickLogout }) {
                       className={styles.link__item}
                     />
                     <ListGenerate
+                      href="/create-article"
                       onClick={() => setIsOpen(false)}
                       name="Создать запись"
                       className={styles.link__item}

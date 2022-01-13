@@ -1,5 +1,5 @@
 import { instance } from '../../config/axios';
-import { loadingAction } from './loading';
+import { setLoading } from './loading';
 
 export const setComments = (total, comments) => {
   return {
@@ -16,13 +16,13 @@ export const commentsAction =
     const postComments = `comments/post/${postId}${params}`;
     const getCommentsURL = postId ? postComments : usersComments;
 
-    dispatch(loadingAction(true));
+    dispatch(setLoading('commentsLoading', true));
     try {
       const { data } = await instance.get(getCommentsURL);
       dispatch(setComments(data.total, data.items));
     } catch (e) {
       dispatch({ type: 'CLEAR_COMMENTS' });
     } finally {
-      dispatch(loadingAction(false));
+      dispatch(setLoading('commentsLoading', false));
     }
   };

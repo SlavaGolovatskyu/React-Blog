@@ -1,5 +1,5 @@
 import { instance } from '../../config/axios';
-import { loadingAction } from './loading';
+import { setLoading } from './loading';
 
 export const setPosts = (total, items) => {
   return {
@@ -13,7 +13,7 @@ export const postsAction =
   async (dispatch) => {
     const getArticlesURL = `posts?page=${page}&limit=${limit}&orderBy=${orderBy}&userId=${userId}&query=${query}`;
 
-    dispatch(loadingAction(true));
+    dispatch(setLoading('postsLoading', true));
     try {
       // make requests for receive articles
       const { data } = await instance.get(getArticlesURL);
@@ -22,6 +22,6 @@ export const postsAction =
     } catch (e) {
       dispatch({ type: 'CLEAR_POSTS' });
     } finally {
-      dispatch(loadingAction(false));
+      dispatch(setLoading('postsLoading', false));
     }
   };

@@ -8,6 +8,7 @@ import RegistrationForm from '../components/Forms/Registration';
 import Profile from '../components/Profile/Profile';
 
 import { logout } from '../redux/actions/user';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
@@ -15,6 +16,7 @@ import styles from './pages.module.scss';
 
 import { formContextProvider } from '../context/formContext';
 import { LoginRoute } from '../utils/ProtectedRoute';
+import CreateArticle from '../components/CreateArticle/CreateArticle';
 
 export default function MainPage() {
   const [formOpen, setFormOpen] = React.useState({
@@ -62,19 +64,18 @@ export default function MainPage() {
           <Switch>
             <Route path="/" exact>
               <About />
-              <div className={styles.articles}>
-                <Articles />
-              </div>
+              <Articles />
             </Route>
+
             <LoginRoute path="/profile" exact={true}>
               <Profile />
             </LoginRoute>
-            {/* <LoginRoute path="/create-article" exact={true}>
+
+            <LoginRoute path="/create-article" exact={true}>
               <CreateArticle />
+              <Articles />
             </LoginRoute>
-            <LoginRoute path="/edit-article/:id" exact={true}>
-              <CreateArticle />
-            </LoginRoute> */}
+
             <Route>
               <h1>Страница не найдена.</h1>
             </Route>

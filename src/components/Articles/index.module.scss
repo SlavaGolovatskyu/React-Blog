@@ -1,68 +1,80 @@
-.article__flex_direction {
-  display: flex;
+.articles {
+  max-width: 80vh;
+  margin-top: 0px;
+  max-height: 1000px;
+  overflow: scroll;
+  overflow-x: hidden;
 
-  .article {
-    min-width: 50%;
-    word-wrap: break-word;
+  .article__flex_direction {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    background: #ffffff;
-    border-radius: 15px;
-    margin: 10px 10px;
-    padding: 0 0 10px 15px;
 
-    .article__title {
-      max-width: 100%;
-      font-family: Nunito;
-      font-style: normal;
-      font-weight: 800;
-      font-size: 24px;
-      line-height: 30px;
-      color: #080b0e;
-      padding: 26px 30px 10px 0;
+    .article {
+      min-width: 50%;
+      word-wrap: break-word;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      background: #ffffff;
+      border-radius: 15px;
+      margin: 10px 10px;
+      padding: 0 0 10px 15px;
+
+      .article__title {
+        max-width: 100%;
+        font-family: Nunito;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 24px;
+        line-height: 30px;
+        color: #080b0e;
+        padding: 26px 30px 10px 0;
+      }
+
+      .article__text {
+        max-width: 100%;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 24px;
+        color: #898c90;
+        padding: 5px 0 19px 0;
+      }
+
+      .article__createdAt {
+        max-width: 100%;
+        font-family: IBM Plex Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        font-feature-settings: 'tnum' on, 'lnum' on;
+        color: #c1c1c1;
+      }
+
+      .article__views {
+        margin: 0 0 0 5px;
+      }
     }
 
-    .article__text {
-      max-width: 100%;
-      font-family: Inter;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 15px;
-      line-height: 24px;
-      color: #898c90;
-      padding: 5px 0 19px 0;
+    .article__img {
+      width: 150px;
+      height: auto;
+      border-radius: 15px;
+      margin: 10px 25px 0 25px;
     }
-
-    .article__createdAt {
-      max-width: 100%;
-      font-family: IBM Plex Sans;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 14px;
-      line-height: 18px;
-      letter-spacing: 0.01em;
-      text-transform: uppercase;
-      font-feature-settings: 'tnum' on, 'lnum' on;
-      color: #c1c1c1;
-    }
-
-    .article__views {
-      margin: 0 0 0 5px;
-    }
-  }
-
-  .article__img {
-    width: 150px;
-    height: auto;
-    border-radius: 15px;
-    margin: 10px 25px 0 25px;
   }
 }
 
 @media screen and (max-width: 1090px) {
-  .article__flex_direction {
-    flex-wrap: wrap;
+  .articles {
+    margin-top: 50px;
+
+    .article__flex_direction {
+      flex-wrap: wrap;
+    }
   }
 }

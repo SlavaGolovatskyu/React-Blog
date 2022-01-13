@@ -28,7 +28,7 @@ function Comment({ comment }) {
 // else get comments from specific post
 const Comments = ({ isUser = false, postId = '' }) => {
   const [page, setPage] = React.useState(1);
-  const loading = useSelector((state) => state.loading.isLoading);
+  const loading = useSelector((state) => state.loading.commentsLoading);
   const { totalComments, comments } = useSelector((state) => state.comments);
 
   const dispatch = useDispatch();

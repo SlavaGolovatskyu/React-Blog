@@ -41,7 +41,7 @@ function Article({ article }) {
 // elif user located in himself profile, we uploading user's articles
 function Articles({ isUser = false }) {
   const [page, setPage] = React.useState(1);
-  const loading = useSelector((state) => state.loading.isLoading);
+  const loading = useSelector((state) => state.loading.postsLoading);
   const { totalPosts, posts } = useSelector((state) => state.posts);
 
   const dispatch = useDispatch();
@@ -81,19 +81,21 @@ function Articles({ isUser = false }) {
     <>
       {!loading && (
         <>
-          {posts.map((article) => (
-            <Article key={article._id} article={article} />
-          ))}
+          <div className={styles.articles}>
+            {posts.map((article) => (
+              <Article key={article._id} article={article} />
+            ))}
 
-          <Stack spacing={1} sx={{ marginLeft: '15px' }}>
-            <Pagination
-              page={page}
-              onChange={(e, value) => onChangeCurrentPage(value)}
-              count={totalPages}
-              variant="outlined"
-              shape="rounded"
-            />
-          </Stack>
+            <Stack spacing={1} sx={{ marginLeft: '15px' }}>
+              <Pagination
+                page={page}
+                onChange={(e, value) => onChangeCurrentPage(value)}
+                count={totalPages}
+                variant="outlined"
+                shape="rounded"
+              />
+            </Stack>
+          </div>
         </>
       )}
 

@@ -24,17 +24,9 @@ body {
     list-style: none;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     margin: 100px 100px 50px 68px;
   }
-}
-
-.articles {
-  max-width: 70vh;
-  margin-top: -50px;
-  max-height: 1000px;
-  overflow: scroll;
-  overflow-x: hidden;
 }
 
 @import './media.module.scss';

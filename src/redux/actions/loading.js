@@ -1,6 +1,6 @@
-export const loadingAction = (isLoading) => {
+export const setLoading = (name, bool) => {
   return {
     type: 'SET_LOADING',
-    payload: isLoading,
+    payload: { name: name, loading: bool },
   };
 };

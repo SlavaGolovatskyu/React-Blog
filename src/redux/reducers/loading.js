@@ -1,11 +1,16 @@
 const initialState = {
   isLoading: false,
+  postsLoading: false,
+  commentsLoading: false,
 };
 
 export function loadingReducer(state = initialState, action) {
   switch (action.type) {
     case 'SET_LOADING':
-      return { isLoading: action.payload };
+      return {
+        ...state,
+        [action.payload.name]: action.payload.loading,
+      };
 
     default:
       return state;
