@@ -8,6 +8,13 @@ export const setPosts = (total, items) => {
   };
 };
 
+export const deletePost = (id) => {
+  return {
+    type: 'DELETE_POST',
+    payload: id,
+  };
+};
+
 export const postsAction =
   (userId = '', query = '', page = 1, limit = 5, orderBy = 'desc') =>
   async (dispatch) => {
@@ -25,3 +32,15 @@ export const postsAction =
       dispatch(setLoading('postsLoading', false));
     }
   };
+
+export const deletePostRequest = (id) => async (dispatch) => {
+  const url = `posts/${id}`;
+  try {
+    await instance.delete(url, {
+      headers: { Authorization: window.localStorage.getItem('token') },
+    });
+    dispatch(deletePost(id));
+  } catch (e) {
+    console.log(e);
+  }
+};

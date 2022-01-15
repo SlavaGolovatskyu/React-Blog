@@ -8,6 +8,20 @@ export const setComments = (total, comments) => {
   };
 };
 
+export const deleteComment = (id) => {
+  return {
+    type: 'DELETE_COMMENT',
+    payload: id,
+  };
+};
+
+export const editComment = (text, id) => {
+  return {
+    type: 'EDIT_COMMENT',
+    payload: { id: id, text: text },
+  };
+};
+
 export const commentsAction =
   (postId = '', userId = '', query = '', page = 1, limit = 5, orderBy = 'desc') =>
   async (dispatch) => {
@@ -26,3 +40,31 @@ export const commentsAction =
       dispatch(setLoading('commentsLoading', false));
     }
   };
+
+export const deleteCommentRequest = (id) => async (dispatch) => {
+  const url = `comments/${id}`;
+  try {
+    await instance.delete(url, {
+      headers: { Authorization: window.localStorage.getItem('token') },
+    });
+    dispatch(deleteComment(id));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const editCommentRequest = (text, id) => async (dispatch) => {
+  const url = `comments/${id}`;
+  try {
+    await instance.patch(
+      url,
+      { text: text },
+      {
+        headers: { Authorization: window.localStorage.getItem('token') },
+      },
+    );
+    dispatch(editComment(text, id));
+  } catch (e) {
+    console.log(e);
+  }
+};

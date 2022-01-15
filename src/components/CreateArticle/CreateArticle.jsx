@@ -1,6 +1,8 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller, useController } from 'react-hook-form';
 import { createArticleSchema } from './Schema';
+
+import { instance } from '../../config/axios';
 
 import styles from './index.module.scss';
 
@@ -9,6 +11,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import MDEditor from '@uiw/react-md-editor';
+import { useHistory } from 'react-router-dom';
 
 const CreateArticle = () => {
   const methods = useForm({
@@ -20,37 +23,65 @@ const CreateArticle = () => {
     resolver: yupResolver(createArticleSchema),
   });
 
-  const [edit, setEdit] = React.useState('**hello**');
+  const { field: photo } = useController({
+    control: methods.control,
+    name: 'photoUrl',
+  });
 
-  const [isUrl, setIsUrl] = React.useState(true);
+  const history = useHistory();
+
+  const [edit, setEdit] = React.useState('');
+
   const [formData, setFormData] = React.useState({});
   const [fileName, setFileName] = React.useState('');
 
-  const onSubmit = () => {
-    console.log('test');
-  };
-
   const onUploadPhoto = (e) => {
     const file = e.target.files[0];
-    const formData = new FormData();
+    const formFile = new FormData();
 
-    formData.append('file', file);
+    formFile.append('file', file);
     setFileName(file.name);
 
-    // that's mean what user upload himself photo, not a url
-    setIsUrl(false);
-    setFormData(formData);
+    setFormData(formFile);
+    const event = { target: { value: file.name, name: 'photoUrl' } };
+    photo.onChange(event);
+    console.log(event);
   };
 
-  const onChangeInputUrl = (value) => {
-    if (!isUrl) {
-      setIsUrl(true);
-    }
+  const onChangeInputUrl = (e) => {
     if (Object.entries(formData).length !== 0) {
       setFormData({});
     }
 
-    setFileName(value);
+    setFileName(e.target.value);
+  };
+
+  const onSubmit = async (data) => {
+    let photoUrl = data.photoUrl;
+    try {
+      const { data } = await instance.post('posts/upload', formData, {
+        headers: { Authorization: window.localStorage.getItem('token') },
+      });
+      photoUrl = data.url;
+    } catch (e) {
+      console.log('Не удалось загрузить фотографию.');
+    }
+
+    try {
+      await instance.post(
+        'posts',
+        {
+          title: data.title,
+          text: data.text,
+          photoUrl: photoUrl,
+        },
+        { headers: { Authorization: window.localStorage.getItem('token') } },
+      );
+    } catch (e) {
+      console.log(e);
+    } finally {
+      history.push('/');
+    }
   };
 
   return (
@@ -64,13 +95,22 @@ const CreateArticle = () => {
         />
 
         <p className={styles.href__on_img}>Сылка на изображение (не обьязательно)</p>
+        <p>{methods.formState.errors.photoUrl?.message}</p>
         <div className={styles.upload__photo}>
-          <p>{methods.formState.errors.photoUrl?.message}</p>
-          <input
-            {...methods.register('photoUrl')}
-            className={styles.href__on_img}
-            value={fileName}
-            onChange={(e) => onChangeInputUrl(e.target.value)}
+          <Controller
+            name="photoUrl"
+            control={methods.control}
+            render={({ field: { onChange } }) => (
+              <input
+                {...photo}
+                className={styles.href__on_img}
+                value={fileName}
+                onChange={(e) => {
+                  onChangeInputUrl(e);
+                  onChange && onChange(e);
+                }}
+              />
+            )}
           />
 
           <div className={styles.wrapper}>
@@ -90,7 +130,22 @@ const CreateArticle = () => {
             </label>
           </div>
         </div>
-        <MDEditor value={edit} onChange={(value) => setEdit(value)} />
+        <Controller
+          name="text"
+          control={methods.control}
+          render={({ field: { onChange } }) => (
+            <MDEditor
+              {...methods.register('text')}
+              className={styles.href__on_img}
+              value={edit}
+              onChange={(e) => {
+                setEdit(e);
+                onChange && onChange(e);
+              }}
+            />
+          )}
+        />
+        <p>{methods.formState.errors.text?.message}</p>
         <button onClick={methods.handleSubmit(onSubmit)} className={styles.publish}>
           Опубликовать
         </button>

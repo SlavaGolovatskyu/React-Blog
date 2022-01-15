@@ -1,6 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { commentsAction } from '../../redux/actions/comments';
+import {
+  commentsAction,
+  deleteCommentRequest,
+  editCommentRequest,
+} from '../../redux/actions/comments';
 
 import { SkeletonCommentsPosts } from '../Skeleton/Comments-Posts';
 import Pagination from '@mui/material/Pagination';
@@ -8,9 +12,24 @@ import Stack from '@mui/material/Stack';
 
 import styles from './index.module.scss';
 import dateToLocaleString from './../../utils/dateToLocaleString';
+import { IsOwner } from './../isOwner/owner';
 
 function Comment({ comment }) {
+  const dispatch = useDispatch();
   const createdAt = dateToLocaleString(comment.createdAt);
+
+  const onClickDelete = () => {
+    if (window.confirm('Вы действительно хотите удалить коментарий?')) {
+      dispatch(deleteCommentRequest(comment._id));
+    }
+  };
+
+  const onClickEdit = () => {
+    const text = window.prompt('Редактировать коментарий', `${comment.text}`);
+    if (text !== comment.text) {
+      dispatch(editCommentRequest(text, comment._id));
+    }
+  };
 
   return (
     <div className={styles.comment}>
@@ -19,6 +38,11 @@ function Comment({ comment }) {
         <div className={styles.comment__createdAt}>{createdAt}</div>
       </div>
       <div className={styles.comment__text}>{comment.text}</div>
+      <IsOwner
+        ownerId={comment.user._id}
+        onClickEdit={onClickEdit}
+        onClickDelete={onClickDelete}
+      />
     </div>
   );
 }

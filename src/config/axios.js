@@ -1,9 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const instance = axios.create({
-  baseURL: "http://localhost:5656/",
+  baseURL: 'http://localhost:5656/',
   headers: {
-    Authorization: window.localStorage.getItem("token"),
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });

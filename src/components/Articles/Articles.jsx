@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { postsAction } from '../../redux/actions/posts';
+import { postsAction, deletePostRequest } from '../../redux/actions/posts';
+import { IsOwner } from '../isOwner/owner';
 
 import { SkeletonCommentsPosts } from '../Skeleton/Comments-Posts';
 import dateToLocaleString from '../../utils/dateToLocaleString';
@@ -12,7 +13,14 @@ import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 
 function Article({ article }) {
+  const dispatch = useDispatch();
   const createdAt = dateToLocaleString(article.createdAt);
+
+  const onClickDelete = () => {
+    if (window.confirm('Вы действительно хотите удалить запис?')) {
+      dispatch(deletePostRequest(article._id));
+    }
+  };
 
   return (
     <div className={styles.article__flex_direction}>
@@ -28,6 +36,7 @@ function Article({ article }) {
             {article.views}
           </p>
         </div>
+        <IsOwner ownerId={article.user._id} onClickDelete={onClickDelete} />
       </div>
       <div>
         <img className={styles.article__img} src={myPhoto} alt="фотография" />
