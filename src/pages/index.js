@@ -76,6 +76,11 @@ export default function MainPage() {
               <Articles />
             </LoginRoute>
 
+            <LoginRoute path="/edit-article/:id" exact={true}>
+              <CreateArticle isEdit={true} />
+              <Articles />
+            </LoginRoute>
+
             <Route>
               <h1>Страница не найдена.</h1>
             </Route>

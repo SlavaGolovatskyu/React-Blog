@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { postsAction, deletePostRequest } from '../../redux/actions/posts';
 import { IsOwner } from '../isOwner/owner';
@@ -6,13 +7,16 @@ import { IsOwner } from '../isOwner/owner';
 import { SkeletonCommentsPosts } from '../Skeleton/Comments-Posts';
 import dateToLocaleString from '../../utils/dateToLocaleString';
 import styles from './index.module.scss';
-import myPhoto from '../../assets/IMG_0508.jpg';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from 'rehype-sanitize';
+
 function Article({ article }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const createdAt = dateToLocaleString(article.createdAt);
 
@@ -22,11 +26,18 @@ function Article({ article }) {
     }
   };
 
+  const onClickEdit = () => {
+    const url = `/edit-article/${article._id}`;
+    history.push(url);
+  };
+
   return (
     <div className={styles.article__flex_direction}>
       <div className={styles.article}>
         <h2 className={styles.article__title}>{article.title}</h2>
-        <p className={styles.article__text}>{article.text}</p>
+        <p className={styles.article__text}>
+          <MDEditor.Markdown source={article.text} rehypePlugins={[[rehypeSanitize]]} />
+        </p>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <h4 className={styles.article__createdAt}>{createdAt}</h4>
           <VisibilityIcon
@@ -36,10 +47,14 @@ function Article({ article }) {
             {article.views}
           </p>
         </div>
-        <IsOwner ownerId={article.user._id} onClickDelete={onClickDelete} />
+        <IsOwner
+          ownerId={article.user._id}
+          onClickEdit={onClickEdit}
+          onClickDelete={onClickDelete}
+        />
       </div>
       <div>
-        <img className={styles.article__img} src={myPhoto} alt="фотография" />
+        <img className={styles.article__img} src={article.photoUrl} alt="" />
       </div>
     </div>
   );

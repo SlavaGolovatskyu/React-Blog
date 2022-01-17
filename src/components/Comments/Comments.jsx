@@ -27,7 +27,11 @@ function Comment({ comment }) {
   const onClickEdit = () => {
     const text = window.prompt('Редактировать коментарий', `${comment.text}`);
     if (text !== comment.text) {
-      dispatch(editCommentRequest(text, comment._id));
+      if (text.trim().length > 3) {
+        dispatch(editCommentRequest(text, comment._id));
+      } else {
+        alert('Длинна коментария должна быть от 3 символов');
+      }
     }
   };
 

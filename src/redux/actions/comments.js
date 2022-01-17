@@ -49,7 +49,7 @@ export const deleteCommentRequest = (id) => async (dispatch) => {
     });
     dispatch(deleteComment(id));
   } catch (e) {
-    console.log(e);
+    alert(e);
   }
 };
 
@@ -65,6 +65,6 @@ export const editCommentRequest = (text, id) => async (dispatch) => {
     );
     dispatch(editComment(text, id));
   } catch (e) {
-    console.log(e);
+    alert(e);
   }
 };

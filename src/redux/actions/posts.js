@@ -41,6 +41,26 @@ export const deletePostRequest = (id) => async (dispatch) => {
     });
     dispatch(deletePost(id));
   } catch (e) {
-    console.log(e);
+    alert(e);
   }
+};
+
+export const createPost = async (title, text, photoUrl) => {
+  await instance.post(
+    'posts',
+    {
+      title: title,
+      text: text,
+      photoUrl: photoUrl,
+    },
+    { headers: { Authorization: window.localStorage.getItem('token') } },
+  );
+};
+
+export const editPost = async (id, title, text, photoUrl) => {
+  await instance.patch(
+    `posts/${id}`,
+    { title: title, text: text, photoUrl: photoUrl },
+    { headers: { Authorization: window.localStorage.getItem('token') } },
+  );
 };
