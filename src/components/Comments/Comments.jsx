@@ -14,6 +14,8 @@ import styles from './index.module.scss';
 import dateToLocaleString from './../../utils/dateToLocaleString';
 import { IsOwner } from './../isOwner/owner';
 
+import { usePaginate } from '../../hooks/usePaginate';
+
 function Comment({ comment }) {
   const dispatch = useDispatch();
   const createdAt = dateToLocaleString(comment.createdAt);
@@ -55,19 +57,18 @@ function Comment({ comment }) {
 // if isUser true than we recive user's comments
 // else get comments from specific post
 const Comments = ({ isUser = false, postId = '' }) => {
-  const [page, setPage] = React.useState(1);
-  const loading = useSelector((state) => state.loading.commentsLoading);
-  const { totalComments, comments } = useSelector((state) => state.comments);
+  const perPageLimit = 5;
 
-  const dispatch = useDispatch();
+  const { page, setPage, totalPages, items, dispatch } = usePaginate(
+    'comments',
+    perPageLimit,
+  );
 
-  // dividing on 5 because backend have limit. We can change him of course
-  // but us еnough just 5
-  const totalPages = Math.ceil(totalComments / 5);
+  const loading = useSelector((state) => state.loading.comments);
 
   const getComments = (currentPage = 1) => {
     const userId = isUser ? window.localStorage.getItem('_id') : '';
-    dispatch(commentsAction(postId, userId, '', currentPage));
+    dispatch(commentsAction(postId, userId, '', currentPage, perPageLimit));
   };
 
   const onChangePage = (page) => {
@@ -77,7 +78,7 @@ const Comments = ({ isUser = false, postId = '' }) => {
 
   React.useEffect(getComments, [isUser, postId, dispatch]);
 
-  if (!comments.length && !loading) {
+  if (!items && !loading) {
     return (
       <div style={{ margin: '25px 0 0 25px', textAlign: isUser ? 'left' : 'center' }}>
         {!isUser && <h2>Пока что, на этом посте нету коментариев.</h2>}
@@ -90,19 +91,23 @@ const Comments = ({ isUser = false, postId = '' }) => {
     <>
       {!loading && (
         <>
-          {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} />
-          ))}
+          {!!items.length && (
+            <>
+              {items.map((comment) => (
+                <Comment key={comment._id} comment={comment} />
+              ))}
 
-          <Stack spacing={1} sx={{ marginLeft: '15px' }}>
-            <Pagination
-              page={page}
-              onChange={(e, value) => onChangePage(value)}
-              count={totalPages}
-              variant="outlined"
-              shape="rounded"
-            />
-          </Stack>
+              <Stack spacing={1} sx={{ marginLeft: '15px' }}>
+                <Pagination
+                  page={page}
+                  onChange={(e, value) => onChangePage(value)}
+                  count={totalPages}
+                  variant="outlined"
+                  shape="rounded"
+                />
+              </Stack>
+            </>
+          )}
         </>
       )}
 

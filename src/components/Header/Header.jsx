@@ -12,7 +12,6 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
   const [searchOpen, setSearchOpen] = React.useState(false);
 
   const isAuth = useSelector((state) => state.user.isAuth);
-  const isOpen = 'isOpen';
 
   return (
     <div className={styles.header}>

@@ -20,7 +20,7 @@ export const postsAction =
   async (dispatch) => {
     const getArticlesURL = `posts?page=${page}&limit=${limit}&orderBy=${orderBy}&userId=${userId}&query=${query}`;
 
-    dispatch(setLoading('postsLoading', true));
+    dispatch(setLoading('posts', true));
     try {
       // make requests for receive articles
       const { data } = await instance.get(getArticlesURL);
@@ -29,7 +29,7 @@ export const postsAction =
     } catch (e) {
       dispatch({ type: 'CLEAR_POSTS' });
     } finally {
-      dispatch(setLoading('postsLoading', false));
+      dispatch(setLoading('posts', false));
     }
   };
 

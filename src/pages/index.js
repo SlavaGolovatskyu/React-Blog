@@ -6,6 +6,7 @@ import Articles from '../components/Articles/Articles';
 import LoginForm from '../components/Forms/Login';
 import RegistrationForm from '../components/Forms/Registration';
 import Profile from '../components/Profile/Profile';
+import { ArticleDetail } from '../components/ArticleDetail/ArticleDetail';
 
 import { logout } from '../redux/actions/user';
 
@@ -80,6 +81,11 @@ export default function MainPage() {
               <CreateArticle isEdit={true} />
               <Articles />
             </LoginRoute>
+
+            <Route path="/article-detail/:id" exact>
+              <ArticleDetail />
+              <Articles />
+            </Route>
 
             <Route>
               <h1>Страница не найдена.</h1>

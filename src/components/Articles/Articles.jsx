@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postsAction, deletePostRequest } from '../../redux/actions/posts';
 import { IsOwner } from '../isOwner/owner';
 
@@ -14,6 +14,8 @@ import Pagination from '@mui/material/Pagination';
 
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
+
+import { usePaginate } from '../../hooks/usePaginate';
 
 function Article({ article }) {
   const history = useHistory();
@@ -31,21 +33,30 @@ function Article({ article }) {
     history.push(url);
   };
 
+  const onClickDetail = () => {
+    const url = `/article-detail/${article._id}`;
+    history.push(url);
+  };
+
   return (
     <div className={styles.article__flex_direction}>
       <div className={styles.article}>
-        <h2 className={styles.article__title}>{article.title}</h2>
-        <p className={styles.article__text}>
-          <MDEditor.Markdown source={article.text} rehypePlugins={[[rehypeSanitize]]} />
-        </p>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h4 className={styles.article__createdAt}>{createdAt}</h4>
-          <VisibilityIcon
-            className={styles.article__views + ' ' + styles.article__createdAt}
+        <div onClick={onClickDetail}>
+          <h2 className={styles.article__title}>{article.title}</h2>
+          <MDEditor.Markdown
+            source={article.text}
+            rehypePlugins={[[rehypeSanitize]]}
+            className={styles.article__text}
           />
-          <p className={styles.article__views + ' ' + styles.article__createdAt}>
-            {article.views}
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <h4 className={styles.article__createdAt}>{createdAt}</h4>
+            <VisibilityIcon
+              className={styles.article__views + ' ' + styles.article__createdAt}
+            />
+            <p className={styles.article__views + ' ' + styles.article__createdAt}>
+              {article.views}
+            </p>
+          </div>
         </div>
         <IsOwner
           ownerId={article.user._id}
@@ -64,19 +75,18 @@ function Article({ article }) {
 // if user located on main page, articles uploading desc.
 // elif user located in himself profile, we uploading user's articles
 function Articles({ isUser = false }) {
-  const [page, setPage] = React.useState(1);
-  const loading = useSelector((state) => state.loading.postsLoading);
-  const { totalPosts, posts } = useSelector((state) => state.posts);
+  const perPageLimit = 5;
 
-  const dispatch = useDispatch();
+  const { page, setPage, totalPages, items, dispatch } = usePaginate(
+    'posts',
+    perPageLimit,
+  );
 
-  // dividing on 5 because backend have limit. We can change him of course
-  // but us еnough just 5
-  const totalPages = Math.ceil(totalPosts / 5);
+  const loading = useSelector((state) => state.loading.posts);
 
   const setArticles = (currentPage = 1) => {
     const userId = isUser ? window.localStorage.getItem('_id') : '';
-    dispatch(postsAction(userId, '', currentPage));
+    dispatch(postsAction(userId, '', currentPage, perPageLimit));
   };
 
   const onChangeCurrentPage = (value) => {
@@ -86,7 +96,7 @@ function Articles({ isUser = false }) {
 
   React.useEffect(setArticles, [isUser, dispatch]);
 
-  if (!posts.length && !loading) {
+  if (!items && !loading) {
     return (
       <div
         style={{
@@ -106,7 +116,7 @@ function Articles({ isUser = false }) {
       {!loading && (
         <>
           <div className={styles.articles}>
-            {posts.map((article) => (
+            {items.map((article) => (
               <Article key={article._id} article={article} />
             ))}
 

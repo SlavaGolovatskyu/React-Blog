@@ -8,24 +8,20 @@ export function LoginRoute({ children, path, exact = false }) {
 
   const history = useHistory();
 
-  getUserById(id)
-    .then((res) => {
-      // if id is not valid
-      if (!res) {
-        history.push('/');
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-
   return (
     <Route
       path={path}
       exact={exact}
       render={() => {
-        if (token) {
-          return children;
+        if (token && id) {
+          const result = (async () => {
+            const res = await getUserById(id);
+            return !res ? false : true;
+          })();
+          if (result) {
+            return children;
+          }
+          history.push('/');
         }
         return <Redirect to="/" />;
       }}

@@ -1,7 +1,7 @@
 const initialState = {
   isLoading: false,
-  postsLoading: false,
-  commentsLoading: false,
+  posts: false,
+  comments: false,
 };
 
 export function loadingReducer(state = initialState, action) {
