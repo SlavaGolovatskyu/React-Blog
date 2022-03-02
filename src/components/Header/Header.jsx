@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,10 +8,24 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import styles from './index.module.scss';
 
+import { postsAction } from '../../redux/actions/posts';
+
+import useDebounce from '../../utils/debounce';
+
 const Header = ({ handleOpenForm, handleLogOut }) => {
   const [searchOpen, setSearchOpen] = React.useState(false);
+  const [searchValue, setSearchValue] = React.useState('');
+
+  const debouncedSearchArticle = useDebounce(searchValue, 1000);
+  const dispatch = useDispatch();
 
   const isAuth = useSelector((state) => state.user.isAuth);
+
+  React.useEffect(() => {
+    if (debouncedSearchArticle) {
+      dispatch(postsAction('', debouncedSearchArticle, 1, 5));
+    }
+  }, [debouncedSearchArticle]);
 
   return (
     <div className={styles.header}>
@@ -21,6 +35,8 @@ const Header = ({ handleOpenForm, handleLogOut }) => {
           {searchOpen && (
             <div className={styles.position__relative}>
               <input
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
                 className={styles.search__input}
                 placeholder="Поиск статьи по заголовку или тексту..."
                 autoFocus

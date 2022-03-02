@@ -24,8 +24,10 @@ export const postsAction =
     try {
       // make requests for receive articles
       const { data } = await instance.get(getArticlesURL);
-      // set data if not errors
-      dispatch(setPosts(data.total, data.items));
+      if (data.items) {
+        // set data if not errors
+        dispatch(setPosts(data.total, data.items));
+      }
     } catch (e) {
       dispatch({ type: 'CLEAR_POSTS' });
     } finally {
